@@ -1,0 +1,502 @@
+﻿@using static HouseHelper.Controllers.FindHelperController;
+@{
+    var success = TempData["Success"] as string;
+    ViewData["Title"] = "Profile";
+}
+@{
+    Layout = null;
+}
+@using System.Security.Claims;
+@{
+    var userId = User.FindFirstValue("userId");
+    var username = User.FindFirstValue("username");
+    var userImg = User.FindFirstValue("userImg");
+    @if (userImg == "")
+    {
+        userImg = "/images/default-avatar.png";
+    }
+    else if (userImg != "")
+    {
+        userImg = userImg == null ? "" : $"/images/{userImg.ToString()}";
+    }
+
+    var FindhelperImg = User.FindFirstValue("FindhelperImg");
+    @if (FindhelperImg == "")
+    {
+        FindhelperImg = "/images/default-avatar.png";
+    }
+    else if (FindhelperImg != "")
+    {
+        FindhelperImg = FindhelperImg == null ? "" : $"/images/{FindhelperImg.ToString()}";
+    }
+
+    var Cv = User.FindFirstValue("CV");
+    @if (Cv == "")
+    {
+        Cv = "/JobSeeker/CreateCV";
+    }
+    else if (Cv != "")
+    {
+        Cv = Cv == null ? "" : $"/JobSeeker/ViewCV/{userId.ToString()}";
+    }
+    var JobseekerName = User.FindFirstValue("JobseekerName");
+    JobseekerName = JobseekerName == null ? "" : $"{JobseekerName.ToString()}";
+    var FindhelperName = User.FindFirstValue("FindhelperName");
+    FindhelperName = FindhelperName == null ? "" : $"{FindhelperName.ToString()}";
+
+}
+<head>
+    <link rel="icon" href="/images/logo-icon.jfif" type="image/jfif" sizes="16x16" />
+    <title>HouseHelperService</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/custom-bs.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/fonts/line-icons/style.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/quill.snow.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fastbootstrap@1.1.1/dist/css/fastbootstrap.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color: #f2f6fc;
+            color: #69707a;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+
+        .site-navbar .site-navigation {
+            left: 20%;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+            .card .card-header {
+                font-weight: 500;
+            }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .user-pic {
+            width: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 30px;
+        }
+
+        nav ul {
+            width: 100%;
+            text-align: right;
+        }
+
+            nav ul li {
+                display: inline-block;
+                list-style: none;
+                margin: 10px 20px;
+            }
+
+                nav ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 100%;
+            right: 0%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+            .sub-menu-wrap.open-menu {
+                max-height: 400px;
+            }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-info h3 {
+                font-weight: 500;
+            }
+
+            .user-info img {
+                width: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+            .sub-menu-link p {
+                width: 100%;
+            }
+
+            .sub-menu-link img {
+                width: 40px;
+                background-color: #e5e5e5;
+                border-radius: 50%;
+                padding: 8px;
+                margin-right: 15px;
+            }
+
+            .sub-menu-link span {
+                font-size: 22px;
+                transition: transform 0.5s;
+            }
+
+            .sub-menu-link:hover span {
+                transform: translateX(5px);
+            }
+
+            .sub-menu-link:hover p {
+                font-weight: 600;
+            }
+    </style>
+</head>
+
+<body id="top">
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div> <!-- .site-mobile-menu -->
+        <!-- NAVBAR -->
+        <header class="site-navbar mt-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="site-logo col-6"><a asp-controller="Home" asp-action="Index">HouseHelperService</a></div>
+                    <nav class="mx-auto site-navigation">
+                        <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                            <li><a asp-controller="Home" asp-action="Index" class="nav-link active">Trang chủ</a></li>
+                            <li><a asp-controller="Home" asp-action="getAllJob">Đơn tuyển dụng</a></li>
+                            <li><a asp-controller="Home" asp-action="getAllCV">Đơn ứng tuyển</a></li>
+                            <li><a asp-controller="Home" asp-action="Contact">Giới thiệu</a></li>
+                            <li class="d-lg-none"><a asp-action="/register"><span class="mr-2">+</span> Đăng kí</a></li>
+                            <li class="d-lg-none"><a asp-action="/login">Đăng nhập</a></li>
+
+                        </ul>
+                    </nav>
+
+                    <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+                        <div class="ml-auto">
+                            <a href="/register" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Đăng kí</a>
+                            <a href="/login" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Đăng nhập</a>
+                        </div>
+                    </div>
+                    <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
+                    }
+                </div>
+            </div>
+
+        </header>
+
+        <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1 class="text-white font-weight-bold">Danh sách người tìm việc</h1>
+                        <div class="custom-breadcrumbs">
+                            <a asp-controller="FindHelper" asp-action="Index">Trang chủ</a> <span class="mx-2 slash">/</span>
+                            <span class="text-white"><strong>Danh sách người tìm việc</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="site-section">
+            <div class="container">
+
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-md-7 text-center">
+                        <h2 class="section-title mb-2">Đơn ứng tuyển: @ViewData["TotalCV"]</h2>
+                    </div>
+                </div>
+                @foreach (ListCVModel item in ViewBag.data)
+                {
+                    <div _ngcontent-serverapp-c112="" class="col-grid-box w-100 mt-3 mb-4 ng-star-inserted">
+                        <job-detail-block _ngcontent-serverapp-c112="" _nghost-serverapp-c110="">
+                            <div _ngcontent-serverapp-c110="" class="product-box ng-star-inserted" style="box-shadow: 0 0 8px 0 #ddd;border-radius: 7px;overflow: hidden;margin-top: 0!important;display: flex!important;padding: 0!important;">
+                                <div _ngcontent-serverapp-c110="" class="img-wrapper_Custom w-10">
+                                    <a _ngcontent-serverapp-c110="" routerlinkactive="router-link-active" asp-action="ViewCV" asp-controller="FindHelper" asp-route-id="@item.id">
+                                        <div _ngcontent-serverapp-c110="" class="front custom_front_rsume_image" style="overflow: hidden;height: 145px;width: 145px;margin: 15px 5px 15px 15px;border-radius: 50%;border: 1px solid #707070;">
+                                            <img _ngcontent-serverapp-c110="" loading="lazy" alt="Urgently looking for helper to start work immediately " src="/images/@item.img" style="width: 100%;height: 100%;">
+                                        </div>
+                                    </a><div _ngcontent-serverapp-c110="" class="listing-sub-title-agency text-left w-20 mt-2" style="font-weight: 500;">
+                                        <label _ngcontent-serverapp-c110="" for="lable_type" class="label_blue" style="background: #054a84;/* height: 30px; *//* line-height: 30px; */z-index: 2;text-align: center;display: inline-block;width: 88.053333%;color: #fefefe;font-weight: 500;clip-path: polygon(100% 0,90% 50%,100% 100%,0 100%,0 0,0 0);border-bottom: 2px solid #ebba16;"><!----><span _ngcontent-serverapp-c110="" class="ng-star-inserted">Tìm việc</span><!----></label>
+                                    </div>
+                                </div><div _ngcontent-serverapp-c110="" class="product-detail w-100 pt-2 align-self-baseline text-left" style="margin: 0 auto;padding: 10px!important;text-align: left!important;">
+                                    <a _ngcontent-serverapp-c110="" routerlinkactive="router-link-active" asp-action="ViewCV" asp-controller="FindHelper" asp-route-id="@item.id" style="text-decoration: none !important;">
+                                        <!----><h4 _ngcontent-serverapp-c110="" class="product-title" style="word-break: break-word;font-size: calc(18px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;color: #054a84;font-weight: 600;margin-bottom: 0;transition: all .5s ease;"> @item.name - @item.dob tuổi  </h4><h5 _ngcontent-serverapp-c110="" class="product-sub-title mt-1 mr-2" style="font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;color: #666;padding-top: 0;font-weight: 700;display: inline-block;">
+                                            @if (item.gender == true)
+                                            {
+                                                <span _ngcontent-serverapp-c110="" class="ng-star-inserted"> Người giúp việc - Nữ </span>
+
+                                                <!---->
+                                                <!---->
+                                            }
+                                            else
+                                            {
+                                                <span _ngcontent-serverapp-c110="" class="ng-star-inserted"> Người giúp việc - Nam </span>
+
+                                                <!---->
+                                                <!---->
+                                            }
+                                        </h5><h5 _ngcontent-serverapp-c110="" class="product-sub-title mt-1" style="font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;color: #666;padding-top: 0;font-weight: 700;display: inline-block;">
+                                            <i _ngcontent-serverapp-c110="" aria-hidden="true" class="icon-map-marker mr-2" style="color:green;"></i>@item.location
+                                        </h5><!----><div _ngcontent-serverapp-c110="" class="product-description mt-2" style="word-break: break-word;font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;text-align: justify;height: 75px;line-height: 18px;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;color: #333!important;letter-spacing: normal;">
+                                            @item.description
+                                        </div><div _ngcontent-serverapp-c110="" class="product-footer" style="padding-top: 25px;color:#054a84;">
+                                            <h5 _ngcontent-serverapp-c110="" class="footer-experience" style="display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                <i _ngcontent-serverapp-c110="" class="prize-badge-with-star-and-ribbon"></i> @item.Exp năm kinh nghiệm |
+                                            </h5><h5 _ngcontent-serverapp-c110="" class="footer-date" style="margin-left: 10px;display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                <i _ngcontent-serverapp-c110="" class="fa fa-calendar"></i> Ngày bắt đầu làm việc: @item.datestart.Value.Day/@item.datestart.Value.Month/@item.datestart.Value.Year
+                                            </h5><h5 _ngcontent-serverapp-c110="" class="footer-active ng-star-inserted" style="margin-left: 10px;color: #25ae88;display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                <i _ngcontent-serverapp-c110="" aria-hidden="true" class="fa fa-circle"></i>
+                                            </h5><!---->
+                                        </div>
+                                    </a>
+                                </div>
+                            </div><!----><!----><!---->
+                        </job-detail-block>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="text-white">Bạn đang tìm kiếm người giúp việc?</h2>
+                        <p class="mb-0 text-white lead">Hãy trở thành thành viên để tìm người giúp việc dễ dàng hơn.</p>
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="col-md-3 ml-auto">
+                            <a asp-action="GetAllJob" asp-controller="FindHelper" class="btn btn-warning btn-block btn-lg">Xem đơn tuyển dụng</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3 ml-auto">
+                            <a href="/register" class="btn btn-warning btn-block btn-lg">Đăng Ký</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </section>
+        <div _ngcontent-serverapp-c111="" class="container" style="padding:25px 40px;">
+            <div _ngcontent-serverapp-c111="" class="row">
+                <div _ngcontent-serverapp-c111="" class="col-12 mb-5 extra_details_bottom description_tag">
+                    <p _ngcontent-serverapp-c111="" style="word-break: break-word;"><p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;color: #434345;">HouseHelperService</font></font></strong><font style="vertical-align: inherit;color: #434345;"><font style="vertical-align: inherit;color: #434345;"> &nbsp;đã liệt kê cho bạn rất nhiều ứng viên có kinh nghiệm (Giúp việc nhà, Lái xe, nấu ăn…). </font><font style="vertical-align: inherit;">Hiện tại bạn đang cần tìm người giúp việc nhà và bạn muốn tìm Người Giúp Việc Gia Đình cho gia đình mình? </font><font style="vertical-align: inherit;">Tại Hà Nội, Hồ Chí Minh, Đà Nẵng... giờ đây bạn có khả năng kết nối với những người trợ giúp gần bạn!</font></font></p>
+
+                    <h2><font style="vertical-align: inherit;font-size: calc(20px + (30 - 20) * ((100vw - 300px) / (1920 - 300)));margin-top: 5px;margin-bottom: 5px;font-weight: 300;line-height: 1.2;color: #054a84;"><font style="vertical-align: inherit;">Làm thế nào để bạn chọn một người trợ giúp tốt? </font><font style="vertical-align: inherit;">Các kỹ năng cần thiết là gì?</font></font></h2>
+
+                    <h3><font style="vertical-align: inherit; font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">1. Kỹ năng dọn phòng</font></font></h3>
+
+                    <p><font style="vertical-align: inherit; font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Một người giúp việc gia đình chịu trách nhiệm quản lý nhà của chủ nhân của cô ấy. </font><font style="vertical-align: inherit;">Trong thời gian gần đây, vai trò của người giúp việc gia đình cũng quan trọng như bất kỳ thành viên nào khác trong gia đình. </font><font style="vertical-align: inherit;">Cô ấy làm tất cả công việc dọn dẹp bao gồm quét, lau nhà và giặt giũ. </font><font style="vertical-align: inherit;">Các kỹ năng cần thiết là chăm chỉ, chú ý đến chi tiết và trung thực. </font><font style="vertical-align: inherit;">Bạn cần tìm một người trợ giúp tốt nếu bạn thực sự cần giảm bớt căng thẳng đó và tập trung vào sự nghiệp hoặc học vấn của mình.</font></font></p>
+
+                    <h3><font style="vertical-align: inherit; font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">2. Kỹ năng chăm sóc</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Người giúp việc gia đình chăm sóc con cái và người già trong gia đình bằng cách hỗ trợ họ trong cuộc sống hàng ngày.</font></font></p>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Tự kiểm soát là một trong những kỹ năng quan trọng nhất để chăm sóc em bé và chăm sóc trẻ! </font><font style="vertical-align: inherit;">Khi bạn thuê một người trợ giúp, hãy kiểm tra kinh nghiệm trước đây của cô ấy và khả năng hiểu nhu cầu của trẻ. </font><font style="vertical-align: inherit;">Lắng nghe là một kỹ năng giao tiếp quan trọng được khuyến khích để làm theo hướng dẫn của bạn. </font><font style="vertical-align: inherit;">Kiến thức y tế và sơ cứu là một lợi thế.</font></font></p>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Đối với việc chăm sóc người cao tuổi, điều quan trọng là phải kiểm tra xem người trợ giúp đã được đào tạo tốt chưa (chứng chỉ điều dưỡng viên hoặc hộ sinh) về thuốc men và đảm bảo sức khỏe và tinh thần tốt nhất có thể. </font><font style="vertical-align: inherit;">Có sự kiên nhẫn, đồng cảm và viện dưỡng lão là một điểm cộng.</font></font></p>
+
+                    <h3><font style="vertical-align: inherit; font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">3. Kỹ năng nấu ăn</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Bạn đang tìm Đầu bếp cho gia đình mình? </font><font style="vertical-align: inherit;">Nhiệm vụ chính sẽ là chuẩn bị và nấu các bữa ăn hoàn chỉnh hoặc các món ăn và thức ăn riêng lẻ. </font><font style="vertical-align: inherit;">Khả năng làm theo các công thức nấu ăn là phải! </font><font style="vertical-align: inherit;">Cần có kỹ năng tổ chức để lập thực đơn và xác định chất lượng thực phẩm. </font><font style="vertical-align: inherit;">Đam mê nghệ thuật ẩm thực là một lợi thế.</font></font></p>
+
+                    <h3><font style="vertical-align: inherit;font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">4. Giao tiếp, trung thực và đáng tin cậy</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Người giúp việc bạn chọn phải trung thực và chủ động trong mọi công việc gia đình. </font><font style="vertical-align: inherit;">Cô ấy cần phải là một người giao tiếp tốt và trung thành nữa.</font></font></p>
+
+                    <h2><font style="vertical-align: inherit;font-size: calc(20px + (30 - 20) * ((100vw - 300px) / (1920 - 300)));margin-top: 5px;margin-bottom: 5px;font-weight: 300;line-height: 1.2;color: #054a84;"><font style="vertical-align: inherit;">Giải pháp tìm người giúp việc</font></font></h2>
+
+                    <h3><font style="vertical-align: inherit;font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">1. Sử dụng Nền tảng Trực tuyến để Kết nối với Người giúp việc Nước ngoài</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">HouseHelperService sẽ cho phép bạn kết nối với những người giúp việc gia đình tốt nhất.&nbsp;</font></font><a href="https://localhost:7208/Register"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Đặt một lời mời làm việc</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &nbsp;trên HouseHelperService, nhận được rất nhiều đơn đăng ký và dễ dàng nhắn tin cho các ứng viên!</font></font></p>
+
+                    <h3><font style="vertical-align: inherit;font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">2. Mạng cá nhân và Nhóm Facebook</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Hỏi bạn bè và các thành viên gia đình mở rộng của bạn để được giới thiệu. </font><font style="vertical-align: inherit;">Họ biết nhu cầu của gia đình bạn, vì vậy họ sẽ ở vị trí tốt hơn để hướng dẫn bạn đến người trợ giúp phù hợp. </font><font style="vertical-align: inherit;">Bạn cũng có khả năng sử dụng một số nhóm Facebook.</font></font></p>
+
+                    <h3><font style="vertical-align: inherit;font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1920 - 300)));line-height: 1.4;color: #054a84;"><font style="vertical-align: inherit;">3. Thuê thông qua một Cơ quan có uy tín</font></font></h3>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">Bạn cũng có thể thuê một người giúp việc thông qua một&nbsp; </font></font><a href="https://localhost:7208/FindHelper/GetAllCV"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">công ty giúp việc có uy tín</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , nếu bạn muốn tiết kiệm thời gian trong khi tìm được một người giúp việc đáng tin cậy cho gia đình mình.</font></font></p>
+
+                    <p>&nbsp;</p>
+
+                    <p><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;"><font style="vertical-align: inherit;">HouseHelperService cũng kết nối nhà tuyển dụng và người giúp việc tại các quốc gia sau:&nbsp; </font></font><a href="https://localhost:7208/JobSeeker/GetAllJob"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hong Kong</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &nbsp;–&nbsp; </font></font><a href="https://www.HouseHelperService.com/find-candidate-singapore"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Singapore</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &nbsp;–&nbsp; </font></font><a href="https://www.HouseHelperService.com/find-candidate-macau"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Macau</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &nbsp;–&nbsp; </font></font><a href="https://www.HouseHelperService.com/find-candidate-uae"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">United Arab Emirates</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &nbsp;–&nbsp; </font></font><a href="https://www.HouseHelperService.com/find-candidate-saudi-arabia"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Saudi Arabia</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;font-weight: 400;margin-top: 4px;margin-bottom: 15px!important;color: #434345;">HouseHelperService cũng có trên&nbsp; </font></font><a href="https://www.facebook.com/HouseHelperService/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Facebook</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , chúng tôi chia sẻ với bạn những ứng viên tốt nhất cũng như tin tức &amp; lời khuyên về người giúp việc gia đình (hợp đồng, quy trình tuyển dụng, nghĩa vụ,…). </font><font style="vertical-align: inherit;">Tham gia với chúng tôi và truyền bá cho bạn bè của bạn.</font></font></p>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <br />
+        <footer class="site-footer">
+
+            <a href="#top" class="smoothscroll scroll-top">
+                <span class="icon-keyboard_arrow_up"></span>
+            </a>
+
+            <div class="container">
+                <div class="col-12">
+                    <h2 style="color:#fff; text-align:center"><strong>HOUSEHELPERSERVICES</strong></h2>
+                    <br />
+                    <p style="text-align:center">là một sản phẩm để kết nối người tìm việc và nhà tuyển dụng một cách dễ dàng và nhanh chóng.</p>
+                </div>
+                <br />
+                <div class="row text-center">
+                    <div class="col-12">
+                        <p class="copyright">
+                            <small>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://localhost:7208/" target="_blank">HouseHelperServices</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toogleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+    <script>
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="/js/stickyfill.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/jquery.animateNumber.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/quill.min.js"></script>
+
+    <script src="/js/bootstrap-select.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+
+</body>

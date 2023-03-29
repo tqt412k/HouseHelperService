@@ -1,0 +1,505 @@
+﻿@model HouseHelper.Models.Findhelper
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Identity
+@{
+    var userId = User.FindFirstValue("userId");
+    }
+@{
+    var success = TempData["Success"] as string;
+    ViewData["Title"] = "Profile";
+}
+@{
+    Layout = null;
+}
+<head>
+    <link rel="icon" href="/images/logo-icon.jfif" type="image/jfif" sizes="24x24" />
+    <title>HouseHelperService</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/custom-bs.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="fonts/line-icons/style.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/quill.snow.css">
+
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: #f2f6fc;
+            color: #69707a;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+            .card .card-header {
+                font-weight: 500;
+            }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .user-pic {
+            width: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 30px;
+        }
+
+        nav ul {
+            width: 100%;
+            text-align: right;
+        }
+
+            nav ul li {
+                display: inline-block;
+                list-style: none;
+                margin: 10px 20px;
+            }
+
+                nav ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 100%;
+            right: 0%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+            .sub-menu-wrap.open-menu {
+                max-height: 400px;
+            }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-info h3 {
+                font-weight: 500;
+            }
+
+            .user-info img {
+                width: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+            .sub-menu-link p {
+                width: 100%;
+            }
+
+            .sub-menu-link img {
+                width: 40px;
+                background-color: #e5e5e5;
+                border-radius: 50%;
+                padding: 8px;
+                margin-right: 15px;
+            }
+
+            .sub-menu-link span {
+                font-size: 22px;
+                transition: transform 0.5s;
+            }
+
+            .sub-menu-link:hover span {
+                transform: translateX(5px);
+            }
+
+            .sub-menu-link:hover p {
+                font-weight: 600;
+            }
+    </style>
+</head>
+
+<body id="top">
+
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div> <!-- .site-mobile-menu -->
+        <!-- NAVBAR -->
+        @foreach (var item in (IEnumerable<HouseHelper.Models.Findhelper>)ViewData["infor"])
+        {
+            <header class="site-navbar mt-3">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="site-logo col-6"><a asp-controller="FindHelper" asp-action="Index">HouseHelperService</a></div>
+                        <nav class="mx-auto site-navigation">
+                            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                                <li><a asp-area="" asp-controller="FindHelper" asp-action="Index" class="nav-link active">Trang Chủ</a></li>
+
+                                <li><a asp-controller="FindHelper" asp-action="PostJob" asp-route-id="@userId">Đăng đơn tuyển dụng</a></li>
+                                <li>
+                                    <a asp-controller="FindHelper" asp-action="GetAllCV">Danh sách ứng viên</a>
+                                </li>
+                                <li class="has-children">
+                                    <a asp-controller="FindHelper" asp-action="FindHelperProfile" asp-route-id="@userId">Thông tin cá nhân</a>
+                                    <ul class="dropdown">
+                                        <li><a asp-controller="FindHelper" asp-action="EditFindHelperProfile" asp-route-id="@userId">Cập nhật thông tin</a></li>
+                                        <li><a asp-controller="FindHelper" asp-action="ChangePassFindHelper" asp-route-id="@userId">Đổi mật khẩu</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+                            <div class="ml-auto">
+                                @if (@item.FindHelperImg == null)
+                                {
+                                    <img src="/images/default-avatar.png" class="user-pic" onclick="toogleMenu()">
+                                }
+                                else if (@item.FindHelperImg != null)
+                                {
+                                    <img src="/images/@item.FindHelperImg" class="user-pic" onclick="toogleMenu()">
+                                }
+                                <span style="color:white; margin-left:1rem;"> <strong>@item.FindHelperName</strong></span>
+                                <div class="sub-menu-wrap" id="subMenu">
+                                    <div class="sub-menu">
+                                        <div class="user-info">
+                                            @if (@item.FindHelperImg == null)
+                                            {
+                                                <img src="/images/default-avatar.png" alt="">
+                                            }
+                                            else if (@item.FindHelperImg != null)
+                                            {
+                                                <img src="/images/@item.FindHelperImg" alt="">
+                                            }
+                                            <span style="color:black">Xin chào,<strong>@item.FindHelperName </strong></span>
+                                        </div>
+                                        <hr>
+                                        <a asp-area="" asp-controller="FindHelper" asp-action="FindHelperProfile" asp-route-id="@userId" class="sub-menu-link">
+                                            <img src="images/profile.png" alt="">
+                                            <p style="text-align:left!important">Thông tin cá nhân</p>
+                                            <span>></span>
+                                        </a>
+                                        <a asp-controller="FindHelper" asp-action="GetMyJob" asp-route-id="@userId" class="sub-menu-link">
+                                            <img src="images/setting.png" alt="">
+                                            <p style="text-align:left!important">Bài đăng của tôi</p>
+                                            <span>></span>
+                                        </a>
+                                        <a asp-controller="FindHelper" asp-action="ChangePassFindHelper" asp-route-id="@userId" class="sub-menu-link">
+                                            <img src="images/help.png" alt="">
+                                            <p style="text-align:left!important">Đổi mật khẩu</p>
+                                            <span>></span>
+                                        </a>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <a asp-area="" asp-controller="FindHelper" asp-action="Logout" class="sub-menu-link">
+                                                <img src="images/logout.png" alt="">
+                                                <p style="text-align:left!important">Đăng Xuất</p>
+                                                <span>></span>
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </header>
+
+            <!-- HOME -->
+
+            <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h1 class="text-white font-weight-bold">Thông tin cá nhân</h1>
+                            <div class="custom-breadcrumbs">
+                                <a asp-controller="FindHelper" asp-action="Index">Trang Chủ</a> <span class="mx-2 slash">/</span>
+                                <span class="text-white"><strong>Thông tin cá nhân</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container">
+
+                <hr class="mt-0 mb-4">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <!-- Profile picture card-->
+                        <div class="card mb-4 mb-xl-0">
+                            <div class="card-header"><strong>Ảnh Đại Diện</strong></div>
+                            <div class="card-body text-center">
+                                <!-- Profile picture image-->
+                                @if (@item.FindHelperImg == null)
+                                {
+                                    <img class="img-account-profile rounded-circle mb-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT360fUlvJBm16H7JiEgDkiijVMYZl2Nbohk1btsLqx_xcCDmw4VdyB0vkmsMtDtf8hLQI&usqp=CAU" alt="">
+                                }
+                                else if (@item.FindHelperImg != null)
+                                {
+                                    <img class="img-account-profile rounded-circle mb-2" src="~/images/@item.FindHelperImg" alt="">
+                                }
+                                <!-- Profile picture help block-->
+                                <div class="small font-italic text-muted mb-4"><p style="color:red;">* Vui lòng tải lên ảnh không lớn hơn 5 MB</p></div>
+                                <!-- Profile picture upload button-->
+<a class="btn btn-primary" type="button" asp-action="EditFindHelperProfile" asp-controller="FindHelper" asp-route-id="@item.FindHelperid">Thay đổi ảnh mới</a>                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <!-- Account details card-->
+                        <div class="card mb-4">
+                            <div class="card-header"><strong>Thông Tin Chi Tiết</strong></div>
+                            <div class="card-body">
+                                <form>
+                                    @foreach (var item2 in (IEnumerable<HouseHelper.Models.Role>)ViewData["Role"])
+                                    {
+
+                                        <!-- Form Group (username)-->
+                                        if (item2.RoleName == "JobSeeker")
+                                        {
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputUsername"><strong>Vai Trò</strong></label>
+                                                <input class="form-control" id="inputUsername" type="text" placeholder="" value="Người Tìm Việc" readonly>
+                                            </div>
+                                        }
+                                        else if (item2.RoleName == "FindHelper")
+                                        {
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputUsername"><strong>Vai Trò</strong></label>
+                                                <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="Tìm Người Giúp Việc" readonly>
+                                            </div>
+                                        }
+
+                                    }
+                                    <!-- Form Row-->
+                                    <div class="row gx-3 mb-3">
+                                        <!-- Form Group (first name)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputFirstName"><strong>Họ Tên</strong></label>
+                                            <input class="form-control" id="inputFirstName" type="text" placeholder="" value="@item.FindHelperName" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputPhone"><strong>Email</strong></label>
+                                            <input class="form-control" id="inputPhone" type="email" placeholder="Chưa khai báo" value="@item.FindHelperEmail" readonly>
+                                        </div>
+                                        <!-- Form Group (last name)-->
+                                        @*<div class="col-md-6">
+                                            <label class="small mb-1" for="inputLastName"><strong>Giới Tính</strong></label>
+                                            @if (item. == null)
+                                            {
+                                                <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="" readonly>
+                                            }
+                                            else if (item.JobSeekergender != null)
+                                            {
+                                                @if (item.JobSeekergender == true)
+                                                {
+                                                    <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="Nữ" readonly>
+                                                }
+                                                else if (item.JobSeekergender == false)
+                                                {
+                                                    <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="Nam" readonly>
+                                                }
+                                            }
+                                        </div>*@
+                                    </div>
+                                    <!-- Form Row        -->
+                                    <div class="row gx-3 mb-3">
+                                        <!-- Form Group (organization name)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputOrgName"><strong>Số điện thoại</strong></label>
+                                            <input class="form-control" id="inputOrgName" type="text" placeholder="Nhập số điện thoại" value="@item.FindHelperPhone" readonly>
+                                        </div>
+                                        <!-- Form Group (location)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputLocation"><strong>Khu Vực Làm Việc</strong></label>
+                                            <input class="form-control" id="inputLocation" type="text" placeholder="Chưa khai báo" value="@item.FindHelperLocation" readonly>
+                                        </div>
+                                    </div>
+                                    <!-- Form Group (email address)-->
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="inputEmailAddress"><strong>Địa Chỉ Thường Trú</strong></label>
+                                        <input class="form-control" id="inputEmailAddress" type="text" placeholder="Chưa khai báo" value="@item.FindHelperAddress" readonly>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(success))
+                                    {
+                                        <script>
+                                            swal("Chúc mừng bạn!", "Cập nhật thông tin thành công", "success");
+                                        </script>
+
+                                    }
+                                    <!-- Save changes button-->
+                                    <a asp-controller="FindHelper" asp-action="EditFindHelperProfile" asp-route-id="@item.FindHelperid" class="btn btn-primary">Cập Nhật Thông Tin</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <footer class="site-footer">
+
+                <a href="#top" class="smoothscroll scroll-top">
+                    <span class="icon-keyboard_arrow_up"></span>
+                </a>
+
+                <div class="container">
+                    <div class="col-12">
+                        <h2 style="color:#fff; text-align:center"><strong>HOUSEHELPERSERVICES</strong></h2>
+                        <br />
+                        <p style="text-align:center">là một sản phẩm để kết nối người tìm việc và nhà tuyển dụng một cách dễ dàng và nhanh chóng.</p>
+                    </div>
+                    <br />
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <p class="copyright">
+                                <small>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://localhost:7208/" target="_blank">HouseHelperServices</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        }
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toogleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/stickyfill.min.js"></script>
+    <script src="js/jquery.fancybox.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/quill.min.js"></script>
+
+
+    <script src="js/bootstrap-select.min.js"></script>
+
+    <script src="js/custom.js"></script>
+    @*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    *@
+
+
+</body>

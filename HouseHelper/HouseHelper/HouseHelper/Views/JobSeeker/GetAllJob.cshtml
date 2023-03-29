@@ -1,0 +1,534 @@
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Identity
+@using static HouseHelper.Controllers.JobSeekerController;
+@{
+    var userId = User.FindFirstValue("userId");
+    var username = User.FindFirstValue("username");
+    var userImg = User.FindFirstValue("userImg");
+    @if (userImg == "")
+    {
+        userImg = "/images/default-avatar.png";
+    }
+    else if (userImg != "")
+    {
+        userImg = userImg == null ? "" : $"/images/{userImg.ToString()}";
+    }
+
+    var FindhelperImg = User.FindFirstValue("FindhelperImg");
+    @if (FindhelperImg == "")
+    {
+        FindhelperImg = "/images/default-avatar.png";
+    }
+    else if (FindhelperImg != "")
+    {
+        FindhelperImg = FindhelperImg == null ? "" : $"/images/{FindhelperImg.ToString()}";
+    }
+
+    var Cv = User.FindFirstValue("CV");
+    @if (Cv == "")
+    {
+        Cv = "/JobSeeker/CreateCV";
+    }
+    else if (Cv != "")
+    {
+        Cv = Cv == null ? "" : $"/JobSeeker/ViewCV/{userId.ToString()}";
+    }
+    var JobseekerName = User.FindFirstValue("JobseekerName");
+    JobseekerName = JobseekerName == null ? "" : $"{JobseekerName.ToString()}";
+    var FindhelperName = User.FindFirstValue("FindhelperName");
+    FindhelperName = FindhelperName == null ? "" : $"{FindhelperName.ToString()}";
+
+}
+@{
+    Layout = null;
+}
+<head>
+    <link rel="icon" href="/images/logo-icon.jfif" type="image/jfif" sizes="16x16" />
+    <title>HouseHelperService</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Free-Template.co" />
+    <link rel="shortcut icon" href="ftco-32x32.png">
+
+    <link rel="stylesheet" href="/css/custom-bs.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/fonts/line-icons/style.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .section-hero, .section-hero > .container > .row {
+            height: 60vh;
+            min-height: 500px;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .user-pic {
+            width: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 30px;
+        }
+
+        nav ul {
+            width: 100%;
+            text-align: right;
+        }
+
+            nav ul li {
+                display: inline-block;
+                list-style: none;
+                margin: 10px 20px;
+            }
+
+                nav ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 100%;
+            right: 1%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+            .sub-menu-wrap.open-menu {
+                max-height: 400px;
+            }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-info h3 {
+                font-weight: 500;
+            }
+
+            .user-info img {
+                width: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+            .sub-menu-link p {
+                width: 100%;
+            }
+
+            .sub-menu-link img {
+                width: 40px;
+                background-color: #e5e5e5;
+                border-radius: 50%;
+                padding: 8px;
+                margin-right: 15px;
+            }
+
+            .sub-menu-link span {
+                font-size: 22px;
+                transition: transform 0.5s;
+            }
+
+            .sub-menu-link:hover span {
+                transform: translateX(5px);
+            }
+
+            .sub-menu-link:hover p {
+                font-weight: 600;
+            }
+    </style>
+</head>
+<body id="top">
+
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div> <!-- .site-mobile-menu -->
+        <!-- NAVBAR -->
+        <header class="site-navbar mt-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="site-logo col-6"><a asp-controller="JobSeeker" asp-action="Index">HouseHelperService</a></div>
+                    @if (User.IsInRole("JobSeeker"))
+                    {
+                        <nav class="mx-auto site-navigation">
+                            <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                                <li><a asp-area="" asp-controller="JobSeeker" asp-action="Index" class="nav-link active">Trang Chủ</a></li>
+
+                                <li><a href="@Cv">Đăng CV</a></li>
+                                <li>
+                                    <a asp-controller="JobSeeker" asp-action="GetAllJob">Danh sách đơn tuyển dụng</a>
+                                </li>
+                                <li class="has-children">
+                                    <a asp-controller="JobSeeker" asp-action="Profile" asp-route-id="@userId">Thông tin cá nhân</a>
+                                    <ul class="dropdown">
+                                        <li><a asp-controller="JobSeeker" asp-action="Edit" asp-route-id="@userId">Cập nhật thông tin</a></li>
+                                        <li><a asp-asp-controller="JobSeeker" asp-action="ChangePassWord" asp-route-id="@userId">Đổi mật khẩu</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+                            <div class="ml-auto">
+
+                                <img src="@Url.Content(userImg)" class="user-pic" onclick="toogleMenu()">
+                                <span style="color:white; margin-left:1rem;"> <strong>@JobseekerName</strong></span>
+                                <div class="sub-menu-wrap" id="subMenu">
+                                    <div class="sub-menu">
+                                        <div class="user-info">
+                                            <img src="@Url.Content(userImg)" alt="">
+                                            <span style="color:black">Xin chào,<strong>@JobseekerName </strong></span>
+                                        </div>
+                                        <hr>
+
+                                        <a asp-area="" asp-controller="JobSeeker" asp-action="Profile" asp-route-id="@userId" class="sub-menu-link">
+                                            <img src="/images/profile.png" alt="">
+                                            <p style="text-align:left!important">Thông tin cá nhân</p>
+                                            <span>></span>
+                                        </a>
+                                        <a href="@Cv" class="sub-menu-link">
+                                            <img src="/images/setting.png" alt="">
+                                            <p style="text-align:left!important">CV của tôi</p>
+                                            <span>></span>
+                                        </a>
+                                        <a asp-asp-controller="JobSeeker" asp-action="ChangePassWord" asp-route-id="@userId" class="sub-menu-link">
+                                            <img src="/images/help.png" alt="">
+                                            <p style="text-align:left!important">Đổi mật khẩu</p>
+                                            <span>></span>
+                                        </a>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <a asp-area="" asp-controller="JobSeeker" asp-action="Logout" class="sub-menu-link">
+                                                <img src="/images/logout.png" alt="">
+                                                <p style="text-align:left!important">Đăng Xuất</p>
+                                                <span>></span>
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </header>
+        <div>
+            <section class="home-section section-hero overlay bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+
+                <div class="container">
+
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-12">
+                            <form method="get" asp-action="Search" asp-asp-controller="JobSeeker" value="@ViewData["getpostdetail"]" class="search-jobs-form">
+                                <div class="row mb-5">
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                        <input type="text" class="form-control form-control-lg" name="WordSearch" placeholder="Job title, Company...">
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                        <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" name="LocationSearch" title="Select Location">
+                                            <option></option>
+                                            <option>Hà Nội</option>
+                                            <option>TP.Hồ Chí Minh</option>
+                                            <option>Đà Nẵng</option>
+                                            <option>Cần Thơ</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                        <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" name="TypeSearch" title="Select Job Type">
+                                            <option></option>
+                                            <option>Part Time</option>
+                                            <option>Full Time</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#next" class="scroll-button smoothscroll">
+                    <span class=" icon-keyboard_arrow_down"></span>
+                </a>
+
+            </section>
+            <section class="site-section">
+                <div class="container">
+
+                    <div class="row mb-5 justify-content-center">
+                        <div class="col-md-7 text-center">
+                            <h2 class="section-title mb-2">Đơn tuyển dụng: @ViewData["totaljob"]</h2>
+                        </div>
+                    </div>
+                    @foreach (ListJobModel item in ViewBag.data1)
+                    {
+                        <div _ngcontent-serverapp-c112="" class="col-grid-box w-100 mt-3 mb-4 ng-star-inserted">
+                            <job-detail-block _ngcontent-serverapp-c112="" _nghost-serverapp-c110="">
+                                <div _ngcontent-serverapp-c110="" class="product-box ng-star-inserted" style="box-shadow: 0 0 8px 0 #ddd;border-radius: 7px;overflow: hidden;margin-top: 0!important;display: flex!important;padding: 0!important;position: relative;transition: all .5s ease;vertical-align: middle;">
+                                    <div _ngcontent-serverapp-c110="" class="img-wrapper_Custom w-10">
+                                        <a _ngcontent-serverapp-c110="" routerlinkactive="router-link-active" asp-action="ViewJob" asp-controller="JobSeeker" asp-route-id="@item.id">
+                                            <div _ngcontent-serverapp-c110="" class="front custom_front_rsume_image" style="overflow: hidden;height: 145px;width: 145px;margin: 15px 5px 15px 15px;border-radius: 50%;border: 1px solid #707070;">
+                                                <img _ngcontent-serverapp-c110="" loading="lazy" alt="Urgently looking for helper to start work immediately " src="/images/@item.img" style="width: 100%;height: 100%;">
+                                            </div>
+                                        </a><div _ngcontent-serverapp-c110="" class="listing-sub-title-agency text-left w-20 mt-2" style="font-weight: 500;">
+                                            <label _ngcontent-serverapp-c110="" for="lable_type" class="label_blue" style="background: #054a84;/* height: 30px; *//* line-height: 30px; */z-index: 2;text-align: center;display: inline-block;width: 88.053333%;color: #fefefe;font-weight: 500;clip-path: polygon(100% 0,90% 50%,100% 100%,0 100%,0 0,0 0);border-bottom: 2px solid #ebba16;"><!----><span _ngcontent-serverapp-c110="" class="ng-star-inserted">Tuyển dụng</span><!----></label>
+                                        </div>
+                                    </div><div _ngcontent-serverapp-c110="" class="product-detail w-100 pt-2 align-self-baseline text-left" style="margin: 0 auto;padding: 10px!important;text-align: left!important;">
+                                        <a _ngcontent-serverapp-c110="" routerlinkactive="router-link-active" asp-action="ViewJob" asp-controller="JobSeeker" asp-route-id="@item.id" style="text-decoration: none !important;">
+                                            <!----><h4 _ngcontent-serverapp-c110="" class="product-title" style="word-break: break-word;font-size: calc(18px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;color: #054a84;font-weight: 600;margin-bottom: 0;transition: all .5s ease;"> @item.title  </h4><h5 _ngcontent-serverapp-c110="" class="product-sub-title mt-1 mr-2" style="font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;color: #666;padding-top: 0;font-weight: 700;display: inline-block;">
+                                                <span _ngcontent-serverapp-c110="" class="ng-star-inserted"> @item.name | @item.gender | </span><!----><!---->
+                                            </h5><h5 _ngcontent-serverapp-c110="" class="product-sub-title mt-1" style="font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;color: #666;padding-top: 0;font-weight: 700;display: inline-block;">
+                                                <i _ngcontent-serverapp-c110="" aria-hidden="true" class="icon-map-marker mr-2" style="color:green;"></i>@item.location
+                                            </h5><!----><div _ngcontent-serverapp-c110="" class="product-description mt-2" style="word-break: break-word;font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;text-align: justify;height: 75px;line-height: 18px;display: -webkit-box;-webkit-line-clamp: 4;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;color: #333!important;letter-spacing: normal;">
+                                                @item.description
+                                            </div><div _ngcontent-serverapp-c110="" class="product-footer" style="padding-top: 25px;color:#054a84;">
+                                                <h5 _ngcontent-serverapp-c110="" class="footer-experience" style="display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                    <i _ngcontent-serverapp-c110="" class="prize-badge-with-star-and-ribbon"></i> Tìm người giúp việc | @item.type |
+                                                </h5><h5 _ngcontent-serverapp-c110="" class="footer-date" style="margin-left: 10px;display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                    <i _ngcontent-serverapp-c110="" class="fa fa-calendar"></i>Ngày làm việc: @item.datestart.Value.Day/@item.datestart.Value.Month/@item.datestart.Value.Year
+                                                </h5><h5 _ngcontent-serverapp-c110="" class="footer-active ng-star-inserted" style="margin-left: 10px;color: #25ae88;display: inline-block;font-size: calc(14px + (15 - 12) * ((100vw - 300px) / (1920 - 300)))!important;font-weight: 700;margin-right: 5px;">
+                                                    <i _ngcontent-serverapp-c110="" aria-hidden="true" class="fa fa-circle"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div><!----><!----><!---->
+                            </job-detail-block>
+                        </div>
+                    }
+                </div>
+            </section>
+            <section _ngcontent-serverapp-c88="" class="powerful-feature team ng-star-inserted" style="background-color: #f1f1f1;padding: 50px 0;">
+                <div _ngcontent-serverapp-c88="" class="container">
+                    <div _ngcontent-serverapp-c88="" class="row">
+                        <div _ngcontent-serverapp-c88="" class="col-lg-12 col-md-12 col-sm-12">
+                            <div _ngcontent-serverapp-c88="" class="title title2 powerful-feature-header" style="text-align: center;">
+                                <img _ngcontent-serverapp-c88="" loading="lazy" alt="HelperĐặt Logo" class="img-fluid title-img" src="https://cdn.helperplace.com/web-asset/images/Just_logo.png" style="height: 50px;">
+                                <div _ngcontent-serverapp-c88="" class="borders main-text">
+                                    <span _ngcontent-serverapp-c88="">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">TÍNH NĂNG</font>
+                                        </font>
+                                    </span>
+                                </div>
+                                <div _ngcontent-serverapp-c88="" class="title title2">
+                                    <div _ngcontent-serverapp-c88="" class="sub-title">
+                                        <h2 _ngcontent-serverapp-c88="" class="section-header text-capitalize text-center">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Tìm kiếm và chọn lọc</font>
+                                            </font>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div _ngcontent-serverapp-c88="" class="col-12 col-sm-11 col-md-4 col-lg-4 col-xl-4 my-2 py-1">
+                            <div _ngcontent-serverapp-c88="" class="team-slider p-3" style="background: #fff;border-radius: 10px;box-shadow: 0 0 20px rgba(0,0,0,.14);border: 1px solid #fff;transition: .5s;">
+                                <div _ngcontent-serverapp-c88="" class="team-container text-center">
+                                    <div _ngcontent-serverapp-c88="" class="text-center">
+                                        <img _ngcontent-serverapp-c88="" loading="lazy" alt="HelperNơi hỗ trợ" width="60px" hight="60px" class="img-fluid members my-2 mx-auto" src="https://cdn.helperplace.com/web-asset/images/helper-support.png">
+                                        <h3 _ngcontent-serverapp-c88="" style="font-weight: 600;padding: 10px 0;font-size: calc(18px + (26 - 18) * ((100vw - 300px) / (1920 - 300)));margin-top: -4px;margin-bottom: 0;color: #054a84;">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Nhanh chóng an toàn</font>
+                                            </font>
+                                        </h3>
+                                        <p _ngcontent-serverapp-c88="">
+                                        </p><p>
+                                            <b>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Không có người trung gian</font>
+                                                </font>
+                                            </b>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> và nhiều sự lựa chọn hơn. </font>
+                                                <font style="vertical-align: inherit;">
+                                                    Nền tảng minh bạch, đáng tin cậy, thuận lợi
+                                                    và có đạo đức.
+                                                </font>
+                                                <font style="vertical-align: inherit;">
+                                                    Tự mình kiểm soát tất cả quá trình tuyển
+                                                    dụng.
+                                                </font>
+                                            </font>
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div _ngcontent-serverapp-c88="" class="col-12 col-sm-11 col-md-4 col-lg-4 col-xl-4 my-2 py-1">
+                            <div _ngcontent-serverapp-c88="" class="team-slider p-3" style="background: #fff;border-radius: 10px;box-shadow: 0 0 20px rgba(0,0,0,.14);border: 1px solid #fff;transition: .5s;">
+                                <div _ngcontent-serverapp-c88="" class="team-container text-center">
+                                    <div _ngcontent-serverapp-c88="" class="text-center">
+                                        <img _ngcontent-serverapp-c88="" loading="lazy" alt="Tính năng HelperPlace" width="60px" hight="60px" class="img-fluid members my-2 mx-auto" src="https://cdn.helperplace.com/web-asset/images/helper-display.png">
+                                        <h3 _ngcontent-serverapp-c88="" style="font-weight: 600;padding: 10px 0;font-size: calc(18px + (26 - 18) * ((100vw - 300px) / (1920 - 300)));margin-top: -4px;margin-bottom: 0;line-height: normal;color: #054a84;">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> Nhà tuyển dụng</font>
+                                            </font>
+                                        </h3>
+                                        <p _ngcontent-serverapp-c88="">
+                                        </p><p>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Ứng viên có sẵn. </font>
+                                                <font style="vertical-align: inherit;">Tìm kiếm, so sánh, </font>
+                                            </font><b>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        nhắn tin trực tiếp hoặc sử dụng bộ phân
+                                                        tích phù hợp của chúng tôi.
+                                                    </font>
+                                                </font>
+                                            </b>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">
+                                                    Phỏng vấn và tuyển dụng không căng thẳng.
+                                                </font>
+                                            </font>
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div _ngcontent-serverapp-c88="" class="col-12 col-sm-11 col-md-4 col-lg-4 col-xl-4 my-2 py-1">
+                            <div _ngcontent-serverapp-c88="" class="team-slider p-3" style="background: #fff;border-radius: 10px;box-shadow: 0 0 20px rgba(0,0,0,.14);border: 1px solid #fff;transition: .5s;">
+                                <div _ngcontent-serverapp-c88="" class="team-container text-center">
+                                    <div _ngcontent-serverapp-c88="" class="text-center">
+                                        <img _ngcontent-serverapp-c88="" loading="lazy" alt="công việc trợ giúp" width="60px" hight="60px" class="img-fluid members my-2 mx-auto" src="https://cdn.helperplace.com/web-asset/images/helper-job.png">
+                                        <h3 _ngcontent-serverapp-c88="" style="font-weight: 600;font-size: calc(18px + (26 - 18) * ((100vw - 300px) / (1920 - 300)));margin-top: -4px;margin-bottom: 0;color: #054a84;padding: 10px 0;">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Người tìm việc</font>
+                                            </font>
+                                        </h3>
+                                        <p _ngcontent-serverapp-c88="">
+                                        </p><p>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">
+                                                    Nhận khả năng hiển thị để tìm một nhà tuyển
+                                                    dụng mới và có được một công việc tốt hơn.
+                                                </font>
+                                            </font><b>
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">Hồ sơ dễ dàng và miễn phí 100%</font>
+                                                </font>
+                                            </b>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> (không phí xếp lớp, không trừ lương)</font>
+                                            </font>
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="site-footer">
+
+                <a href="#top" class="smoothscroll scroll-top">
+                    <span class="icon-keyboard_arrow_up"></span>
+                </a>
+
+                <div class="container">
+                    <div class="col-12">
+                        <h2 style="color:#fff; text-align:center"><strong>HOUSEHELPERSERVICES</strong></h2>
+                        <br />
+                        <p style="text-align:center">là một sản phẩm để kết nối người tìm việc và nhà tuyển dụng một cách dễ dàng và nhanh chóng.</p>
+                    </div>
+                    <br />
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <p class="copyright">
+                                <small>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://localhost:7208/" target="_blank">HouseHelperServices</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+        <!-- SCRIPTS -->
+        <script>
+            let subMenu = document.getElementById("subMenu");
+            function toogleMenu() {
+                subMenu.classList.toggle("open-menu");
+            }
+        </script>
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/isotope.pkgd.min.js"></script>
+        <script src="/js/stickyfill.min.js"></script>
+        <script src="/js/jquery.fancybox.min.js"></script>
+        <script src="/js/jquery.easing.1.3.js"></script>
+        <script src="/js/jquery.waypoints.min.js"></script>
+        <script src="/js/jquery.animateNumber.min.js"></script>
+        <script src="/js/owl.carousel.min.js"></script>
+        <script src="/js/bootstrap-select.min.js"></script>
+        <script src="/js/custom.js"></script>
+
+
+</body>
+</html>

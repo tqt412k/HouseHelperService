@@ -1,0 +1,185 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = HouseHelper
+build_property.RootNamespace = HouseHelper
+build_property.ProjectDir = D:\HouseHelper\HouseHelper\HouseHelper\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\HouseHelper\HouseHelper\HouseHelper
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/changePassAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cY2hhbmdlUGFzc0FkbWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/detailCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZGV0YWlsQ1YuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/detailJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZGV0YWlsSm9iLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/getAllCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZ2V0QWxsQ1YuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/getAllFindHelper.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZ2V0QWxsRmluZEhlbHBlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/getAllJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZ2V0QWxsSm9iLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/getAllJobSeeker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cZ2V0QWxsSm9iU2Vla2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/ChangePassFindHelper.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxDaGFuZ2VQYXNzRmluZEhlbHBlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/EditFindHelperProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxFZGl0RmluZEhlbHBlclByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/FindHelperChangePass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxGaW5kSGVscGVyQ2hhbmdlUGFzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/FindHelperProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxGaW5kSGVscGVyUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/GetAllCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxHZXRBbGxDVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/GetMyJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxHZXRNeUpvYi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/JobSingle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxKb2JTaW5nbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/PostJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxQb3N0Sm9iLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/FindHelper/ViewCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmluZEhlbHBlclxWaWV3Q1YuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Denied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/getAllCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxnZXRBbGxDVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/getAllJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxnZXRBbGxKb2IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Home/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/ChangePassWord.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXENoYW5nZVBhc3NXb3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/CreateCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXENyZWF0ZUNWLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/EditCV1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXEVkaXRDVjEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/GetAllJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXEdldEFsbEpvYi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXFNlYXJjaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/ViewCV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXFZpZXdDVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/JobSeeker/ViewJob.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iU2Vla2VyXFZpZXdKb2IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HouseHelper/HouseHelper/HouseHelper/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-3jlito0au6

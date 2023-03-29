@@ -1,0 +1,682 @@
+﻿@model HouseHelper.Models.Jobseeker
+@using System.Security.Claims;
+@{
+    var success = TempData["Success"] as string;
+    ViewData["Title"] = "Profile";
+}
+@{
+    var userId = User.FindFirstValue("userId");
+    var username = User.FindFirstValue("username");
+    var userImg = User.FindFirstValue("userImg");
+    @if (userImg == "")
+    {
+        userImg = "/images/default-avatar.png";
+    }
+    else if (userImg != "")
+    {
+        userImg = userImg == null ? "" : $"/images/{userImg.ToString()}";
+    }
+
+    var FindhelperImg = User.FindFirstValue("FindhelperImg");
+    @if (FindhelperImg == "")
+    {
+        FindhelperImg = "/images/default-avatar.png";
+    }
+    else if (FindhelperImg != "")
+    {
+        FindhelperImg = FindhelperImg == null ? "" : $"/images/{FindhelperImg.ToString()}";
+    }
+
+    var Cv = User.FindFirstValue("CV");
+    @if (Cv == "")
+    {
+        Cv = "/JobSeeker/CreateCV";
+    }
+    else if (Cv != "")
+    {
+        Cv = Cv == null ? "" : $"/JobSeeker/ViewCV/{userId.ToString()}";
+    }
+    var JobseekerName = User.FindFirstValue("JobseekerName");
+    JobseekerName = JobseekerName == null ? "" : $"{JobseekerName.ToString()}";
+    var FindhelperName = User.FindFirstValue("FindhelperName");
+    FindhelperName = FindhelperName == null ? "" : $"{FindhelperName.ToString()}";
+}
+@{
+    Layout = null;
+}
+<head>
+    <link rel="icon" href="/images/logo-icon.jfif" type="image/jfif" sizes="16x16" />
+    <title>HouseHelperService</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/custom-bs.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/fonts/line-icons/style.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/quill.snow.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fastbootstrap@1.1.1/dist/css/fastbootstrap.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background: rgb(99, 39, 120);
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        }
+
+        .site-navbar .site-navigation {
+            left: 20%;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+            .card .card-header {
+                font-weight: 500;
+            }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .user-pic {
+            width: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 30px;
+        }
+
+        nav ul {
+            width: 100%;
+            text-align: right;
+        }
+
+            nav ul li {
+                display: inline-block;
+                list-style: none;
+                margin: 10px 20px;
+            }
+
+                nav ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 100%;
+            right: 0%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+        }
+
+            .sub-menu-wrap.open-menu {
+                max-height: 400px;
+            }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-info h3 {
+                font-weight: 500;
+            }
+
+            .user-info img {
+                width: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+            .sub-menu-link p {
+                width: 100%;
+            }
+
+            .sub-menu-link img {
+                width: 40px;
+                background-color: #e5e5e5;
+                border-radius: 50%;
+                padding: 8px;
+                margin-right: 15px;
+            }
+
+            .sub-menu-link span {
+                font-size: 22px;
+                transition: transform 0.5s;
+            }
+
+            .sub-menu-link:hover span {
+                transform: translateX(5px);
+            }
+
+            .sub-menu-link:hover p {
+                font-weight: 600;
+            }
+    </style>
+</head>
+
+<body id="top">
+
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div> <!-- .site-mobile-menu -->
+        <!-- NAVBAR -->
+        <header class="site-navbar mt-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="site-logo col-6"><a asp-controller="JobSeeker" asp-action="Index">HouseHelperService</a></div>
+                    <nav class="mx-auto site-navigation">
+                        <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                            <li><a asp-controller="JobSeeker" asp-action="Index" class="nav-link active">Trang Chủ</a></li>
+
+                            <li><a href="@Cv">Đăng CV</a></li>
+                            <li>
+                                <a asp-controller="JobSeeker" asp-action="GetAllJob">Danh sách đơn tuyển dụng</a>
+                            </li>
+                            <li class="has-children">
+                                <a asp-controller="JobSeeker" asp-action="Profile" asp-route-id="@userId">Thông tin cá nhân</a>
+                                <ul class="dropdown" style="display: block;">
+                                    <li><a asp-controller="JobSeeker" asp-action="Edit" asp-route-id="@userId">Cập nhật thông tin</a></li>
+                                    <li><a asp-controller="JobSeeker" asp-action="ChangePassWord" asp-route-id="@userId">Đổi mật khẩu</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+
+                    <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
+                        <div class="ml-auto">
+                            @*<a href="/login" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+                            <a href="/login" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>*@
+
+
+                            @if (@Model.JobSeekerimg == null)
+                            {
+                                <img src="/images/default-avatar.png" class="user-pic" onclick="toogleMenu()">
+                            }
+                            else if (@Model.JobSeekerimg != null)
+                            {
+                                <img src="/images/@Model.JobSeekerimg" class="user-pic" onclick="toogleMenu()">
+                            }
+                            <span style="color:white; margin-left:1rem;"> <strong>@Model.JobSeekername</strong></span>
+                            <div class="sub-menu-wrap" id="subMenu">
+                                <div class="sub-menu">
+                                    <div class="user-info">
+                                        @if (@Model.JobSeekerimg == null)
+                                        {
+                                            <img src="/images/default-avatar.png" alt="">
+                                        }
+                                        else if (@Model.JobSeekerimg != null)
+                                        {
+                                            <img src="/images/@Model.JobSeekerimg" alt="">
+                                        }
+                                        <span style="color:black">Xin chào,<strong>@Model.JobSeekername </strong></span>
+                                    </div>
+                                    <hr>
+                                    <a asp-area="" asp-controller="JobSeeker" asp-action="Profile" asp-route-id="@userId" class="sub-menu-link">
+                                        <img src="/images/profile.png" alt="">
+                                        <p style="text-align:left!important">Thông tin cá nhân</p>
+                                        <span>></span>
+                                    </a>
+                                    <a href="@Cv" class="sub-menu-link">
+                                        <img src="/images/setting.png" alt="">
+                                        <p style="text-align:left!important">CV của tôi</p>
+                                        <span>></span>
+                                    </a>
+                                    <a asp-controller="JobSeeker" asp-action="ChangePassWord" asp-route-id="@userId" class="sub-menu-link">
+                                        <img src="/images/help.png" alt="">
+                                        <p style="text-align:left!important">Đổi mật khẩu</p>
+                                        <span>></span>
+                                    </a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a asp-area="" asp-controller="JobSeeker" asp-action="Logout" class="sub-menu-link">
+                                            <img src="/images/logout.png" alt="">
+                                            <p style="text-align:left!important">Đăng Xuất</p>
+                                            <span>></span>
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                            <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </header>
+
+        <!-- HOME -->
+
+        <section class="section-hero overlay inner-page bg-image" style="background-image: url('/images/hero_1.jpg');" id="home-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1 class="text-white font-weight-bold">Đăng CV tuyển dụng</h1>
+                        <div class="custom-breadcrumbs">
+                            <a asp-controller="Home" asp-action="Index">Trang Chủ</a> <span class="mx-2 slash">/</span>
+                            <span class="text-white"><strong>Đăng CV</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <form id="idForm" method="post">
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-3 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            @if (@Model.JobSeekerimg == null)
+                            {
+                                <img class="rounded-circle mt-5" width="150px" src="/images//default-avatar.png">
+                            }
+                            else if (@Model.JobSeekerimg != null)
+                            {
+                                <img class="rounded-circle mt-5" width="150px" src="~/images/@Model.JobSeekerimg">
+                            }
+                            <span class="font-weight-bold">@Model.JobSeekername</span><span class="text-black-50">@Model.JobSeekerEmail</span><span> </span>
+                        </div>
+                    </div>
+                    <div class="col-md-9 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right"><strong>Tạo CV cá nhân</strong></h4>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <label class="labels"><strong>Ngày sinh</strong></label>
+                                    @if (Model.JobSeekerdob == null)
+                                    {
+                                        <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Chưa khai báo " value="" readonly>
+                                    }
+                                    else if (Model.JobSeekerdob != null)
+                                    {
+                                        <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Chưa khai báo " value="@Model.JobSeekerdob.Value.Day/@Model.JobSeekerdob.Value.Month/@Model.JobSeekerdob.Value.Year" readonly>
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels"><strong>Giới Tính</strong></label>
+                                    @if (Model.JobSeekergender == null)
+                                    {
+                                        <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="" readonly>
+                                    }
+                                    else if (Model.JobSeekergender != null)
+                                    {
+                                        @if (Model.JobSeekergender == true)
+                                        {
+                                            <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="Nữ" readonly>
+                                        }
+                                        else if (Model.JobSeekergender == false)
+                                        {
+                                            <input class="form-control" id="inputLastName" type="text" placeholder="Chưa khai báo" value="Nam" readonly>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label class="labels"><strong>Số điện thoại</strong></label>
+                                    <input class="form-control" id="inputOrgName" type="text" placeholder="Nhập số điện thoại" value="@Model.JobSeekerphone" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels"><strong>Địa chỉ hiện tại</strong></label>
+                                    <input class="form-control" id="inputEmailAddress" type="text" placeholder="Chưa khai báo" value="@Model.JobSeekeraddress" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels"><strong>Khu Vực Làm Việc</strong></label>
+                                    <input class="form-control" id="inputEmailAddress" type="text" placeholder="Chưa khai báo" value="@Model.JobSeekerLocation" readonly>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="labels"><strong>Học Vấn</strong></label>
+                                    <select class="selectpicker border rounded" name="hocvan" id="hocvan" data-style="btn-black" data-width="100%" data-live-search="true" title="Chọn học vấn" required>
+                                        <option>Chưa tốt nghiệp</option>
+                                        <option>Tốt nghiệp THCS</option>
+                                        <option>Tốt nghiệp THPT</option>
+                                        <option>Tốt nghiệp Cao Đẳng, Đại Học</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <label class="labels"><strong>Thời gian làm việc</strong></label>
+                                <select class="selectpicker border rounded" name="worktype" id="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Chọn thời gian làm việc" required>
+                                    <option>Part Time</option>
+                                    <option>Full Time</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <label class="labels"><strong>Mô tả bản thân</strong></label>
+                                @*<div class="editor" type="text-area" id="editor-1" name="jobseekerdescription" value ="">*@
+                                <textarea class="form-control" id="textAreaExample" name="jobseekerdescription" rows="6" placeholder="Hãy mô tả bản thân"></textarea>
+                                @*</div>*@
+                            </div>
+
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <label class="labels"><strong>Kỹ năng chính</strong></label>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <input type="checkbox" class="btn-check" id="btn-check" name="mainskill" value="Chăm sóc em bé" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check">Chăm sóc em bé</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Chăm sóc thú nuôi" id="btn-check2" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check2">Chăm sóc thú nuôi</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Chăm sóc người già" id="btn-check3" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check3">Chăm sóc người già</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Nấu Ăn" id="btn-check4" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check4">Nấu Ăn</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Dọn dẹp nhà cửa" id="btn-check5" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check5">Dọn dẹp nhà cửa</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Lái xe" id="btn-check6" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check6">Lái xe</label>
+
+                                <input type="checkbox" class="btn-check" name="mainskill" value="Đi chợ" id="btn-check7" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check7">Đi chợ</label>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <label class="labels"><strong>Kỹ năng nấu ăn</strong></label>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <input type="checkbox" class="btn-check" name="cookingskill" value="Món Chay" id="btn-check8" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check8">Món Chay</label>
+                                <input type="checkbox" class="btn-check" name="cookingskill" value="Món Mặn" id="btn-check9" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check9">Món Mặn</label>
+                                <input type="checkbox" class="btn-check" name="cookingskill" value="Nấu đồ ăn cho trẻ em" id="btn-check10" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check10">Nấu đồ ăn cho trẻ em</label>
+                                <input type="checkbox" class="btn-check" name="cookingskill" value="Nấu đồ ăn cho người già" id="btn-check11" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check11">Nấu đồ ăn cho người già</label>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <label class="labels"><strong>Kỹ năng khác</strong></label>
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <input type="checkbox" class="btn-check" name="otherskill" value="Làm bánh" id="btn-check12" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check12">Làm bánh</label>
+                                <input type="checkbox" class="btn-check" name="otherskill" value="Máy Tính" id="btn-check13" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check13">Máy Tính</label>
+                                <input type="checkbox" class="btn-check" name="otherskill" value="Sơ Cứu" id="btn-check14" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check14">Sơ Cứu</label>
+                                <input type="checkbox" class="btn-check" name="otherskill" value="Làm vườn" id="btn-check15" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check15">Làm vườn</label>
+                                <input type="checkbox" class="btn-check" name="otherskill" value="May Vá" id="btn-check16" autocomplete="off" />
+                                <label class="btn btn-default" for="btn-check16">May Vá</label>
+                            </div>
+                            <div class="col-md-12 row" style="padding-left:0px;">
+                                <div class="col-md-6">
+                                    <label class="labels"><strong>Mức lương mong muốn thấp nhất (30 ngày)</strong></label>
+                                    <input class="form-control" id="salarymin1" max="50000000" name="salarymin" type="text" placeholder="Nhập lương mong muốn thấp nhất " required>
+                                </div>
+                                <div class="col-md-6" >
+                                    <label class="labels"><strong>Mức lương mong muốn cao nhất (30 ngày)</strong></label>
+                                    <input class="form-control" id="salarymax1" max="50000000" name="salarymax" type="text" placeholder="Nhập lương mong muốn cao nhất" required>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 row" style="padding-left:0px;">
+                                <div class="col-md-6">
+                                    <label class="labels"><strong>Ngày làm việc có thể</strong></label>
+                                    <input class="form-control" id="daysactual" name="daysactual" type="date" placeholder="Nhập ngày có thể làm việc" required>
+                                </div>
+                                <div class="col-md-6" >
+                                    <label class="labels"><strong>Kinh nghiệm</strong></label>
+                                    <input class="form-control" id="daystart" name="daystart" type="date" placeholder="Nhập ngày làm việc đầu tiên" required>
+                                </div>
+
+                            </div>
+                            @*<div class="col-md-12">
+                                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Tạo CV</button></div>
+                            </div>*@
+                            <div class="row mt-5">
+                                <div class="col-md-6" style="padding:0 !important">
+                                    <div class="col-md-4">
+                                        <a asp-controller="JobSeeker" asp-action="Index" class="btn btn-block btn-success btn-md">Trở về</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-2" style="padding:0 !important">
+                                    
+                                    <button type="submit" class="btn btn-block btn-primary btn-md">
+                                        Tạo CV
+                                    </button>
+
+                                    @*<a asp-controller="JobSeeker" asp-action="DeleteCv" asp-route-id="@Model.JobSeekerCvid" class="btn btn-block btn-danger btn-md">Xóa CV</a>*@
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+        <br />
+        <footer class="site-footer">
+
+            <a href="#top" class="smoothscroll scroll-top">
+                <span class="icon-keyboard_arrow_up"></span>
+            </a>
+
+            <div class="container">
+                <div class="col-12">
+                    <h2 style="color:#fff; text-align:center"><strong>HOUSEHELPERSERVICES</strong></h2>
+                    <br />
+                    <p style="text-align:center;color:#fff;">là một sản phẩm để kết nối người tìm việc và nhà tuyển dụng một cách dễ dàng và nhanh chóng.</p>
+                </div>
+                <br />
+                <div class="row text-center">
+                    <div class="col-12">
+                        <p class="copyright">
+                            <small>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://localhost:7208/" target="_blank">HouseHelperServices</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+     <script type="text/javascript">
+        jQuery("#idForm").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            var form = $(this);
+            swal({
+                title: "Bạn có chắc chắn tạo CV?",
+                text: "Mọi thông tin phải thật chính xác nhé !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/JobSeeker/PostCV",
+                            data: form.serialize(),
+                            success: function (response) {
+                                swal("Bạn đã tạo CV thành công", {
+                                    icon: "success",
+                                }).then(function () {
+                                    window.location.href = "/JobSeeker/ViewCV/@userId"
+                                });
+
+                            },
+                            failure: function (response) {
+                                alert(response.responseText);
+                            },
+                            error: function (response) {
+                                alert(response.responseText);
+                            }
+                        });
+
+                    }
+                    else {
+                        swal("Hoàn tất");
+                    }
+                });
+          });
+    </script>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toogleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+    <script>
+        $('#salarymin1').keyup(function (event) {
+                if (event.which >= 37 && event.which <= 40) return;
+                $(this).val(function (index, value) {
+                    return value
+                        .replace(/\D/g, "")
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                        ;
+                });
+            });
+
+    </script>
+        <script>
+            $('#salarymax1').keyup(function (event) {
+                if (event.which >= 37 && event.which <= 40) return;
+                $(this).val(function (index, value) {
+                    return value
+                        .replace(/\D/g, "")
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                        ;
+                });
+            });
+
+        </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="/js/stickyfill.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <script src="/js/jquery.animateNumber.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/quill.min.js"></script>
+
+    <script src="/js/bootstrap-select.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+
+</body>

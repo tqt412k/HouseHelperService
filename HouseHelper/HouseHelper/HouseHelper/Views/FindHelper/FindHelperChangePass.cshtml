@@ -1,0 +1,93 @@
+﻿@model HouseHelper.Models.Findhelper
+@using System.Security.Claims;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@{
+    var username = User.FindFirstValue("username");
+    var registerFail = TempData["RegisterFail"] as string;
+    var FindhelperName = User.FindFirstValue("FindhelperName");
+    FindhelperName = FindhelperName == null ? "" : $"{FindhelperName.ToString()}";
+}
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <!---<title> Responsive Registration Form | CodingLab </title>--->
+    <link rel="stylesheet" href="/css/register.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>*@
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">Thay đổi mật khẩu</div>
+        <div class="content">
+            <form asp-controller="FindHelper" asp-action="FindHelperChangePass" method="post">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Tên Đăng Nhập</span>
+                        <input type="text" name="username" placeholder="Enter your username" value="@username" readonly>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Họ và tên</span>
+                        <input type="text" name="username" placeholder="Enter your username" value="@FindhelperName" readonly>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Mật Khẩu Cũ</span>
+                        <input type="password" name="oldpassword" id="oldpassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Mật Khẩu  Mới </span>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Xác Nhận Mật Khẩu Mới</span>
+                        <input type="password" name="confirmpass" id="confirmpass" placeholder="Confirm your password" onkeyup="validate_password()" required>
+                    </div>
+                </div>
+                <span id="wrong_pass_alert"></span>
+                <br />
+                @if (!string.IsNullOrEmpty(registerFail))
+                {
+                    <script>
+                        swal("Xảy ra lỗi!", "Mật khẩu cũ không đúng hoặc mật khẩu mới trùng với mật khẩu cũ", "error");
+                    </script>
+
+                }
+                <div class="button">
+                    <input type="submit" id="create" value="Đổi mật khẩu" onclick="wrong_pass_alert()">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/js/bootstrap.min.js"> ></script>
+    <script>
+        function validate_password() {
+
+            var pass = document.getElementById('password').value;
+            var confirm_pass = document.getElementById('confirmpass').value;
+            if (pass != confirm_pass) {
+                document.getElementById('wrong_pass_alert').style.color = 'red';
+                document.getElementById('wrong_pass_alert').innerHTML
+                    = 'Mật khẩu không trùng khớp';
+                document.getElementById('create').disabled = true;
+                document.getElementById('create').style.opacity = (0.4);
+            } else {
+                document.getElementById('wrong_pass_alert').style.color = 'green';
+                document.getElementById('wrong_pass_alert').innerHTML =
+                    'Mật khẩu trùng khớp';
+                document.getElementById('create').disabled = false;
+                document.getElementById('create').style.opacity = (1);
+            }
+        }
+    </script>
+    <script src="/js/popper.js"></script>
+</body>
+</html>

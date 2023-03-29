@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var registerFail = TempData["RegisterFail"] as string;
+}
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/images/logo-icon.jfif" type="image/jfif" sizes="16x16" />
+    <title>Đăng Ký Tài Khoản</title>
+    <!---<title> Responsive Registration Form | CodingLab </title>--->
+    <link rel="stylesheet" href="css/register.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>*@
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">Đăng ký tài khoản</div>
+        <div class="content">
+            <form action="/register" method="post">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Họ và Tên Người Dùng</span>
+                        <input type="text" name="fullname" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Tên Đăng Nhập</span>
+                        <input type="text" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Số Điện Thoại</span>
+                        <input type="number" name="phone" placeholder="Enter your number" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Mật Khẩu</span>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Xác Nhận Mật Khẩu</span>
+                        <input type="password" name="confirmpass" id="confirmpass" placeholder="Confirm your password" onkeyup="validate_password()" required>
+                    </div>
+                </div>
+                <span id="wrong_pass_alert"></span>
+                <br />
+                <div class="gender-details">
+                    <input type="radio" name="roless" id="dot-3" value="2" required="required">
+                    <input type="radio" name="roless" id="dot-4" value="3" required="required">
+                    <span class="gender-title">Mục đích</span>
+                    <div class="category" id="login">
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">Người tìm việc</span>
+                        </label>
+                        <label for="dot-4">
+                            <span class="dot four"></span>
+                            <span class="gender">Thuê người giúp việc</span>
+                        </label>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(registerFail))
+                {
+                    <script>
+                        swal("Xảy ra lỗi!", "Tên tài khoản hoặc Email đã bị đã tồn tại", "error");
+                    </script>
+
+                }
+                <div class="button">
+                    <input type="submit" id="create" value="Đăng Ký" onclick="wrong_pass_alert()">
+                </div>
+                <div>
+                    <a href="/login" style="color:blue">Đăng nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="js/bootstrap.min.js"> ></script>
+    <script>
+        function validate_password() {
+
+            var pass = document.getElementById('password').value;
+            var confirm_pass = document.getElementById('confirmpass').value;
+            if (pass != confirm_pass) {
+                document.getElementById('wrong_pass_alert').style.color = 'red';
+                document.getElementById('wrong_pass_alert').innerHTML
+                    = 'Mật khẩu không trùng khớp';
+                document.getElementById('create').disabled = true;
+                document.getElementById('create').style.opacity = (0.4);
+            } else {
+                document.getElementById('wrong_pass_alert').style.color = 'green';
+                document.getElementById('wrong_pass_alert').innerHTML =
+                    'Mật khẩu trùng khớp';
+                document.getElementById('create').disabled = false;
+                document.getElementById('create').style.opacity = (1);
+            }
+        }
+    </script>
+    <script src="js/popper.js"></script>
+</body>
+</html>

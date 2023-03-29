@@ -1,0 +1,68 @@
+﻿@page
+@{
+    var error = TempData["Error"] as string;
+    var registerFail = TempData["Regis"] as string;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="css/Login.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>*@
+    <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+    
+    <div class="container">
+        <header>Đăng nhập</header>
+        <form action="/login" method="post">
+            <div class="input-field">
+                <input type="text" name="username" required>
+                <label>Email or Username</label>
+            </div>
+            <div class="input-field">
+                <input id="password-field" class="pswrd" name="password" type="password" required>
+                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                <label>Password</label>
+            </div>
+            <div class="button">
+                <div class="inner"></div>
+                <button type="submit">LOGIN</button>
+            </div>
+            @if (!string.IsNullOrEmpty(registerFail))
+                {
+                    <script>
+                        swal("Chúc mừng bạn!", "Bạn đã tạo tài khoản thành công", "success");
+                    </script>
+
+                }
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <script>
+                    swal("Xảy ra lỗi!", "Tài Khoản hoặc Mật Khẩu Sai", "error");
+                </script>
+            }
+        </form>
+        <div class="auth">Or login with</div>
+        <div class="links">
+            <div class="facebook">
+                <i class="fab fa-facebook-square"><span>Facebook</span></i>
+            </div>
+            <div class="google">
+                <i class="fab fa-google-plus-square"><span>Google</span></i>
+            </div>
+        </div>
+        <div class="signup">
+            Not a member? <a href="/Register">Signup now</a>
+        </div>
+    </div>
+    <script src="js/bootstrap.min.js"> ></script>
+    <script src="js/Login.js"></script>
+    <script src="js/popper.js"></script>
+</body>
+</html>
